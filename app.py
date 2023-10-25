@@ -62,7 +62,7 @@ def get_results(df_video, threshold=5000):
     df_subscribers = pd.DataFrame(subscribers)
     
     df = pd.merge(left=df_video, right=df_subscribers, on='channel_id')
-    df_extracted = df[df['subscriber_count'] <= threshold]
+    df_extracted = df[df['subscriber_count'] >= threshold]
     
     video_ids = df_extracted['video_id'].tolist()
     
@@ -89,14 +89,13 @@ st.title('YouTube分析アプリ')
 
 st.sidebar.write('## クエリと閾値の設定')
 st.sidebar.write('### クエリの入力')
-query =  st.sidebar.text_input('検索クエリを入力してください', 'youtube')
+query = st.sidebar.text_input('検索クエリを入力してください', 'youtube')
 
 st.sidebar.write('### 閾値の設定')
-threshold = st.sidebar.slider('登録者数の閾値', 10000, 200000000, 100000)
+threshold = st.sidebar.slider('登録者数の閾値', 0, 100000000, 100000)
 
 st.sidebar.write('### 表示結果数の指定')
 max_results = st.sidebar.slider('表示結果数', 1, 50, 25)
-threshold
 st.write('### 選択中のパラメータ')
 st.markdown(f"""
 - 検索クエリ：{query}
@@ -107,11 +106,8 @@ st.markdown(f"""
 df_video = video_search(youtube, q=query, max_results=max_results)
 results = get_results(df_video, threshold=threshold)
 
-try:
-    st.write('### 分析結果', results)
-except:
-    st.error("""エラーが発生しました。
-             登録者数の閾値を調節してください""")
+st.write('### 分析結果')
+st.write(results)
 
 st.write('### 動画再生')
 
