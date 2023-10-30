@@ -84,42 +84,45 @@ def get_results(df_video, threshold=5000):
     results = results.loc[:, ['video_id', 'title', 'view_count', 'subscriber_count', 'channel_id']]
     return results
 
+df_video = video_search(youtube, q=youtube, max_results=50)
+results = get_results(df_video, threshold=10000)
 
-st.title('YouTube分析アプリ')
 
-st.sidebar.write('## クエリと閾値の設定')
-st.sidebar.write('### クエリの入力')
-query = st.sidebar.text_input('検索クエリを入力してください', 'youtube')
+# st.title('YouTube分析アプリ')
 
-st.sidebar.write('### 閾値の設定')
-threshold = st.sidebar.slider('登録者数の閾値', 0, 100000000, 100000)
+# st.sidebar.write('## クエリと閾値の設定')
+# st.sidebar.write('### クエリの入力')
+# query = st.sidebar.text_input('検索クエリを入力してください', 'youtube')
 
-st.sidebar.write('### 最大表示結果数の指定')
-max_results = st.sidebar.slider('最大表示結果数', 1, 50, 25)
-st.write('### 選択中のパラメータ')
-st.markdown(f"""
-- 検索クエリ：{query}
-- 登録者数の閾値：{threshold} 人（以下）
-- 最大表示結果数：{max_results} 件
-""")
+# st.sidebar.write('### 閾値の設定')
+# threshold = st.sidebar.slider('登録者数の閾値', 0, 100000000, 100000)
 
-df_video = video_search(youtube, q=query, max_results=max_results)
-results = get_results(df_video, threshold=threshold)
+# st.sidebar.write('### 表示結果数の指定')
+# max_results = st.sidebar.slider('表示結果数', 1, 50, 25)
+# st.write('### 選択中のパラメータ')
+# st.markdown(f"""
+# - 検索クエリ：{query}
+# - 登録者数の閾値：{threshold} 人（以下）
+# - 表示結果数：{max_results} 件
+# """)
 
-st.write('### 分析結果')
-st.write(results)
+# df_video = video_search(youtube, q=query, max_results=max_results)
+# results = get_results(df_video, threshold=threshold)
 
-st.write('### 動画再生')
+# st.write('### 分析結果')
+# st.write(results)
 
-video_id = st.text_input('動画IDを入力してください')
-url = f'https://youtu.be/{video_id}'
+# st.write('### 動画再生')
 
-video_field = st.empty()
-video_field.write('こちらに動画が表示されます')
+# video_id = st.text_input('動画IDを入力してください')
+# url = f'https://youtu.be/{video_id}'
 
-if st.button('ビデオ表示'):
-    if len(video_id) > 0:
-        try:
-            video_field.video(url)
-        except:
-            st.error('エラーが発生しました')
+# video_field = st.empty()
+# video_field.write('こちらに動画が表示されます')
+
+# if st.button('ビデオ表示'):
+#     if len(video_id) > 0:
+#         try:
+#             video_field.video(url)
+#         except:
+#             st.error('エラーが発生しました')
